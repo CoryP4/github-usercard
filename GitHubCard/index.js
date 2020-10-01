@@ -1,8 +1,21 @@
+import axios from 'axios'
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+axios.get('https://api.github.com/users/coryp4')
+  .then(res => {
+    const myStuff = document.querySelector('.cards')
+    myStuff.appendChild(cardMaker(res.data))
+  })
+  .catch(drama => {
+    //handle drama
+    console.log(drama)
+  })
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -11,6 +24,7 @@
 
     Skip to STEP 3.
 */
+
 
 /*
   STEP 4: Pass the data received from Github into your function,
@@ -49,6 +63,60 @@ const followersArray = [];
       </div>
     </div>
 */
+function cardMaker(obj){
+  const card = document.createElement('div')
+  card.classList.add('card')
+
+  const cardImg = document.createElement('img')
+  cardImg.setAttribute('src', obj.avatar_url)
+  card.appendChild(cardImg)
+
+  const cardInfo = document.createElement('div')
+  cardInfo.classList.add('card-info')
+  card.appendChild(cardInfo)
+
+  const nameH3 = document.createElement('h3')
+  nameH3.classList.add('name')
+  nameH3.textContent = obj.name
+  cardInfo.appendChild(nameH3)
+
+  const userP = document.createElement('p')
+  userP.classList.add('username')
+  userP.textContent = obj.login
+  cardInfo.appendChild(userP)
+
+  const loP = document.createElement('p')
+  loP.classList.add('location')
+  loP.textContent = obj.location
+  cardInfo.appendChild(loP)
+
+  const proP = document.createElement('p')
+  proP.classList.add('profile')
+  proP.textContent = 'profile:'
+  cardInfo.appendChild(proP)
+
+  const proLink = document.createElement('a')
+  proLink.setAttribute('href', obj.html_url)
+  proLink.textContent = obj.html_url
+  proP.appendChild(proLink)
+
+  const followersP = document.createElement('p')
+  followersP.classList.add('followers')
+  followersP.textContent = `Followers: ${obj.followers}`
+  cardInfo.appendChild(followersP)
+
+  const followingP = document.createElement('p')
+  followingP.classList.add('following')
+  followingP.textContent = `Following: ${obj.following}`
+  cardInfo.appendChild(followingP)
+
+  const bio = document.createElement('p')
+  bio.classList.add('bio')
+  bio.textContent = `bio: ${obj.bio}`
+  cardInfo.appendChild(bio)
+
+  return card
+}
 
 /*
   List of LS Instructors Github username's:
