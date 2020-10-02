@@ -6,15 +6,15 @@ import axios from 'axios'
     https://api.github.com/users/<your name>
 */
 
-axios.get('https://api.github.com/users/coryp4')
-  .then(res => {
-    const myStuff = document.querySelector('.cards')
-    myStuff.appendChild(cardMaker(res.data))
-  })
-  .catch(drama => {
-    //handle drama
-    console.log(drama)
-  })
+// axios.get('https://api.github.com/users/coryp4')
+//   .then(res => {
+//     const myStuff = document.querySelector('.cards')
+//     myStuff.appendChild(cardMaker(res.data))
+//   })
+//   .catch(drama => {
+//     //handle drama
+//     console.log(drama)
+//   })
 
 
 /*
@@ -42,8 +42,40 @@ axios.get('https://api.github.com/users/coryp4')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'coryp4',
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell',
+];
 
+followersArray.forEach((follower) => {
+  axios.get(`https://api.github.com/users/${follower}`)
+  .then(res => {
+    const cards = document.querySelector('.cards')
+    cards.appendChild(cardMaker(res.data))
+  })
+  .catch(err => {
+    console.log(err)
+  })
+});
+
+
+
+// followersArray.forEach(ele => {
+
+// axios.get(ele.data)
+//   .then(res => {
+//     const myStuff = document.querySelector('.cards')
+//     myStuff.appendChild(cardMaker(res.data))
+//   })
+//   .catch(drama => {
+//     //handle drama
+//     console.log(drama)
+//   })
+// })
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -64,6 +96,7 @@ const followersArray = [];
     </div>
 */
 function cardMaker(obj){
+
   const card = document.createElement('div')
   card.classList.add('card')
 
