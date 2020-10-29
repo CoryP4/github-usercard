@@ -6,16 +6,6 @@ import axios from 'axios'
     https://api.github.com/users/<your name>
 */
 
-// axios.get('https://api.github.com/users/coryp4')
-//   .then(res => {
-//     const myStuff = document.querySelector('.cards')
-//     myStuff.appendChild(cardMaker(res.data))
-//   })
-//   .catch(drama => {
-//     //handle drama
-//     console.log(drama)
-//   })
-
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -42,7 +32,7 @@ import axios from 'axios'
     user, and adding that card to the DOM.
 */
 
-const followersArray = [
+const userArray = [
   'coryp4',
   'tetondan',
   'dustinmyers',
@@ -51,31 +41,33 @@ const followersArray = [
   'bigknell',
 ];
 
-followersArray.forEach((follower) => {
-  axios.get(`https://api.github.com/users/${follower}`)
+userArray.forEach((user) => {
+  axios.get(`https://api.github.com/users/${user}`)
   .then(res => {
     const cards = document.querySelector('.cards')
-    cards.appendChild(cardMaker(res.data))
+      cards.appendChild(cardMaker(res.data))
   })
+  //something nested?
+  
   .catch(err => {
     console.log(err)
   })
 });
 
 
+//another try
 
-// followersArray.forEach(ele => {
+userArray.forEach((user) => {
+  axios.get(`https://api.github.com/users/${user}/followers`)
+  .then(res => {
+    const followerCards = document.querySelector('.cards')
+      followerCards.appendChild(cardMaker(res.data))
+  })
 
-// axios.get(ele.data)
-//   .then(res => {
-//     const myStuff = document.querySelector('.cards')
-//     myStuff.appendChild(cardMaker(res.data))
-//   })
-//   .catch(drama => {
-//     //handle drama
-//     console.log(drama)
-//   })
-// })
+  .catch(err => {
+    console.log(err)
+  })
+})
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -98,55 +90,55 @@ followersArray.forEach((follower) => {
 function cardMaker(obj){
 
   const card = document.createElement('div')
-  card.classList.add('card')
+    card.classList.add('card')
 
   const cardImg = document.createElement('img')
-  cardImg.setAttribute('src', obj.avatar_url)
-  card.appendChild(cardImg)
+    cardImg.setAttribute('src', obj.avatar_url)
+      card.appendChild(cardImg)
 
   const cardInfo = document.createElement('div')
-  cardInfo.classList.add('card-info')
-  card.appendChild(cardInfo)
+    cardInfo.classList.add('card-info')
+      card.appendChild(cardInfo)
 
   const nameH3 = document.createElement('h3')
-  nameH3.classList.add('name')
-  nameH3.textContent = obj.name
-  cardInfo.appendChild(nameH3)
+    nameH3.classList.add('name')
+    nameH3.textContent = obj.name
+      cardInfo.appendChild(nameH3)
 
   const userP = document.createElement('p')
-  userP.classList.add('username')
-  userP.textContent = obj.login
-  cardInfo.appendChild(userP)
+    userP.classList.add('username')
+    userP.textContent = obj.login
+      cardInfo.appendChild(userP)
 
   const loP = document.createElement('p')
-  loP.classList.add('location')
-  loP.textContent = obj.location
-  cardInfo.appendChild(loP)
+    loP.classList.add('location')
+    loP.textContent = obj.location
+      cardInfo.appendChild(loP)
 
   const proP = document.createElement('p')
-  proP.classList.add('profile')
-  proP.textContent = 'profile:'
-  cardInfo.appendChild(proP)
+    proP.classList.add('profile')
+    proP.textContent = 'profile:'
+      cardInfo.appendChild(proP)
 
   const proLink = document.createElement('a')
-  proLink.setAttribute('href', obj.html_url)
-  proLink.textContent = obj.html_url
-  proP.appendChild(proLink)
+    proLink.setAttribute('href', obj.html_url)
+    proLink.textContent = obj.html_url
+      proP.appendChild(proLink)
 
   const followersP = document.createElement('p')
-  followersP.classList.add('followers')
-  followersP.textContent = `Followers: ${obj.followers}`
-  cardInfo.appendChild(followersP)
+    followersP.classList.add('followers')
+    followersP.textContent = `Followers: ${obj.followers}`
+      cardInfo.appendChild(followersP)
 
   const followingP = document.createElement('p')
-  followingP.classList.add('following')
-  followingP.textContent = `Following: ${obj.following}`
-  cardInfo.appendChild(followingP)
+    followingP.classList.add('following')
+    followingP.textContent = `Following: ${obj.following}`
+      cardInfo.appendChild(followingP)
 
   const bio = document.createElement('p')
-  bio.classList.add('bio')
-  bio.textContent = `bio: ${obj.bio}`
-  cardInfo.appendChild(bio)
+    bio.classList.add('bio')
+    bio.textContent = `bio: ${obj.bio}`
+      cardInfo.appendChild(bio)
 
   return card
 }
